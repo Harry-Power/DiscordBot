@@ -1,7 +1,7 @@
 {
-  "name": "rarefrogsbot",
+  "name": "Discord Bot",
   "version": "0.5.0",
-  "description": "The rare frogs bot",
+  "description": "A simple discord bot",
   "main": "index.js",
   "dependencies": {
     "discord.js": "^12.2.0"
