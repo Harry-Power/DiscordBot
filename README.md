@@ -3,7 +3,7 @@ A simple discord bot
 
 ##Features
 ### Welcome message
-The bot can send a message when someone joins a server
+The bot can send a custom message when someone joins a server
 ### !randomkick
 Admins can kick someone at random or kick someone specific
 ### !nameme
