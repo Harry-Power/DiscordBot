@@ -25,4 +25,5 @@ When it has finished installing use `node index.js` to start the bot
   "welcomechannel": "general",
   "welcomemsg": "Welcome to the server",
   "usernamech": "username-suggestions"
-}```
+}
+```
