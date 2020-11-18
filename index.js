@@ -55,9 +55,12 @@ client.on('message', message => {
   const command = args.shift().toLowerCase()
   // Create an event listener for new guild members
   const person = message.guild.member(message.mentions.users.first() || message.guild.members.fetch(args[0]))
-
+  //The most important line of code
+  if (command == 'source') {
+    message.reply("https://github.com/Harry-Power/DiscordBot")
+  }
   //  Array.from(message.member.guild.members);
-  if (command == 'name') {
+  else if (command == 'name') {
     if (!message.member.hasPermission('ADMINISTRATOR')) return message.reply('Nice try fag')
     if (!person) return message.reply('No user mentioned')
     fs.readFile('usernames.txt', 'utf8', function (err, unformatedUsernames) {
@@ -84,7 +87,7 @@ client.on('message', message => {
 
   // Ignore messages that aren't from a guild
   // If the message content starts with "!randomkick"
-  if (command == 'randomkick') {
+  else if (command == 'randomkick') {
     if (!message.member.hasPermission('ADMINISTRATOR')) return message.reply('You need to be an admin to use that command')
     if (person) {
       person
@@ -132,7 +135,7 @@ client.on('message', message => {
   }
   // Ignore messages that aren't from a guild
   // If the message content starts with "!nameme"
-  if (command == 'nameme') {
+  else if (command == 'nameme') {
     if (message.channel.name === config.botchannel) {
       fs.readFile('usernames.txt', 'utf8', function (err, unformatedUsernames) {
         if (err) throw err
