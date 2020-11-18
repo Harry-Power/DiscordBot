@@ -5,7 +5,7 @@ const fs = require('fs')
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
-  client.user.setActivity("Don't dog the boys!")
+  client.user.setActivity(config.customclienttag)
 })
 client.on('guildMemberAdd', member => {
   // Send the message to a designated channel on a server:

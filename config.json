@@ -4,5 +4,6 @@
   "welcomechannel": "",
   "welcomemsg": "",
   "usernamech": "",
-  "prefix": ""
+  "prefix": "",
+  "customclienttag" : ""
 }
