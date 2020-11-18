@@ -9,6 +9,11 @@ Admins can kick someone at random or kick someone specific
 ### !nameme
 Members can change their username to one from random list of usernames that members can suggest and bot owner can approve using a python script
 
+## Requirements
+* A Discord bot token
+* Node.js v12.0.0 or newer
+* Python
+
 ## Installation
 ```
 git clone https://github.com/Harry-Power/DiscordBot.git
