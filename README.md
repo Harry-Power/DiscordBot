@@ -1,7 +1,7 @@
 # DiscordBot
 A simple discord bot
 
-##Features
+## Features
 ### Welcome message
 The bot can send a custom message when someone joins a server
 ### !randomkick
