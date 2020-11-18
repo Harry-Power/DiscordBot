@@ -1,0 +1,27 @@
+{
+  "name": "rarefrogsbot",
+  "version": "0.5.0",
+  "description": "The rare frogs bot",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^12.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node index.js"
+  },
+  "keywords": [
+    "discord.js",
+    "bot"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Harry-Power/DiscordBot.git"
+  },
+  "author": "HarryPower",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Harry-Power/DiscordBot/issues"
+  },
+  "homepage": "https://github.com/Harry-Power/DiscordBot#readme"
+}
