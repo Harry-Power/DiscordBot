@@ -1,9 +1,11 @@
 {
   "token": "",
-  "botchannel": "",
-  "welcomechannel": "",
-  "welcomemsg": "",
+  "botchannel": "bot-commands",
+  "welcomechannel": "general",
+  "welcomemsg": "Welcome to the server",
   "usernamech": "",
-  "prefix": "",
-  "customclienttag" : ""
+  "prefix": "#",
+  "customclienttag" : "",
+  "role": "gaming",
+  "rolespamtime": "15"
 }
