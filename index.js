@@ -44,11 +44,30 @@ client.on('message', message => {
       console.log('usernames updated!')
     })
   };
+  let role = message.guild.roles.cache.find(r => r == message.mentions.roles.first())
+  
+  if (!role) {
+  } else {
+    if (role == message.guild.roles.cache.find(r => r.name == config.role)) {
+      role.setMentionable(false)
+        .then(updated => console.log(`Role mentioning disabled for ${updated.name}`))
+        .catch(console.error);
+  
+      setTimeout(function() { 
+        role.setMentionable(true)
+          .then(updated => console.log(`Role mentioning enabled for ${updated.name}`))
+          .catch(console.error);
+  
+      },config.rolespamtime * 1000)
+    }
+  }
+  
 
   if (message.content === 'ping' || message.content === 'Ping') {
     message.reply('Pong!')
     console.log('pinged')
   }
+  
   prefix = config.prefix
   if (!message.content.startsWith(prefix) || message.author.bot) return
   const args = message.content.slice(prefix.length).trim().split(' ')
@@ -75,11 +94,7 @@ client.on('message', message => {
           message.reply(`Successfully changed name to **${names[nameMeName]}**`)
         })
         .catch(err => {
-          // An error happened
-          // This is generally due to the bot not being able to name the member,
-          // either due to missing permissions or role hierarchy
           message.reply(`I was unable to change your name, I tried to change your name to ${names[nameMeName]}`)
-          // Log the error
           console.error(err)
         })
     })
@@ -87,50 +102,44 @@ client.on('message', message => {
 
   // Ignore messages that aren't from a guild
   // If the message content starts with "!randomkick"
+  
   else if (command == 'randomkick') {
-    if (!message.member.hasPermission('ADMINISTRATOR')) return message.reply('You need to be an admin to use that command')
-    if (person) {
-      person
-        .kick('They were the chosen one')
-        .then(() => {
-        // We let the message author know we were able to kick the person
-          message.reply(`Randomly kicked ${user.username}`)
-        })
-      return
-    }
-    const user = message.guild.members.cache.random().user
-    // If we have a user mentioned
-    if (user) {
-      // Now we get the member from the user
-      const member = message.guild.member(user)
-      // If the member is in the guild
-      if (member) {
-        /**
-         * Kick the member
-         * Make sure you run this on a member, not a user!
-         * There are big differences between a user and a member
-         */
-        member
+    if (!message.member.hasPermission('ADMINISTRATOR')){
+      message.reply('Randomly kicking you')
+      setTimeout(function() {
+        message.member.kick('They asked for it')
+      }, 1000)
+    } else {
+      if (person) {
+        person
           .kick('They were the chosen one')
           .then(() => {
-            // We let the message author know we were able to kick the person
+          // We let the message author know we were able to kick the person
             message.reply(`Randomly kicked ${user.username}`)
           })
-          .catch(err => {
-            // An error happened
-            // This is generally due to the bot not being able to kick the member,
-            // either due to missing permissions or role hierarchy
-            message.reply(`I was unable to kick the member, I tried to kick ${user.tag}`)
-            // Log the error
-            console.error(err)
-          })
-      } else {
-        // The mentioned user isn't in this guild
-        message.reply("I choose a user that isn't in this server!")
+        return
       }
-      // Otherwise, if no user was mentioned
-    } else {
-      message.reply("I didn't find a user")
+      const user = message.guild.members.cache.random().user
+      // If we have a user mentioned
+      if (user) {
+        // Now we get the member from the user
+        const member = message.guild.member(user)
+        // If the member is in the guild
+        if (member) {
+          member
+            .kick('They were the chosen one')
+            .then(() => {
+              message.reply(`Randomly kicked ${user.username}`)
+            })
+            .catch(err => {
+              message.reply(`I was unable to kick the member, I tried to kick ${user.tag}`)
+              console.error(err)
+            })
+        } else {
+          // The mentioned user isn't in this guild
+          message.reply("I choose a user that isn't in this server!")
+        }
+      } 
     }
   }
   // Ignore messages that aren't from a guild
@@ -151,11 +160,7 @@ client.on('message', message => {
             message.reply(`Successfully changed name to **${names[nameMeName]}**`)
           })
           .catch(err => {
-            // An error happened
-            // This is generally due to the bot not being able to name the member,
-            // either due to missing permissions or role hierarchy
             message.reply(`I was unable to change your name, I tried to change your name to ${names[nameMeName]}`)
-            // Log the error
             console.error(err)
           })
       })
