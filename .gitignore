@@ -1,3 +1,7 @@
 node_modules
 *.json
 config.json
+username-temp.txt
+usernames.txt
+config.json
+usernames.txt

@@ -4,7 +4,7 @@ module.exports.run = async (client,message, args, person) => {
         message.reply('Randomly kicking you')
         setTimeout(function() {
         message.member.kick('They asked for it')
-    }, 1000)
+    }, 3000)
     } else if (person) {
         person
             .kick('They were the chosen one')

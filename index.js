@@ -3,7 +3,6 @@ const client = new Discord.Client()
 const config = require('./config.json')
 const fs = require('fs')
 const prefix = config.prefix;
-
 client.commands = new Discord.Collection();
 
 fs.readdir("./commands/", (err , files) => {
@@ -53,12 +52,11 @@ client.on('guildMemberAdd', member => {
         // Log the error
         console.error(err)
       })
-    console.log(member)
   })
 })
 
 client.on('message', message => {
-  
+  if (message.guild === null) return;
   if (message.channel.name === config.usernamech) {
     if (message.content.startsWith('-')) return
     fs.appendFile('username-temp.txt', ',' + message.content, function (err) {
@@ -80,7 +78,7 @@ client.on('message', message => {
           .then(updated => console.log(`Role mentioning enabled for ${updated.name}`))
           .catch(console.error);
   
-      },config.rolespamtime * 1000)
+      },config.rolespamtime * 60 * 1000)
     }
   }
   
