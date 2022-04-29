@@ -1,6 +1,6 @@
 module.exports.run = async (client,message, args, person) => {
     const user = message.guild.members.cache.random().user
-    if (!message.member.hasPermission('ADMINISTRATOR')){
+    if (!message.member.permissions.has('ADMINISTRATOR')){
         message.reply('Randomly kicking you')
         setTimeout(function() {
         message.member.kick('They asked for it')
@@ -51,8 +51,6 @@ module.exports.run = async (client,message, args, person) => {
                 message.channel.send('You took too long to repsond');
             });
         })
-        // Now we get the member from the user
-        
     } 
 }
 

@@ -2,7 +2,7 @@ const fs = require('fs')
 
 module.exports.run = async (client,message, args, person) => {
     console.log("yes")
-    if (!message.member.hasPermission('ADMINISTRATOR')) return message.reply('Nice try')
+    if (!message.member.permissions.has('ADMINISTRATOR')) return message.reply('Nice try')
     if (!person) return message.reply('No user mentioned')
 
     fs.readFile('usernames.txt', 'utf8', function (err, unformatedUsernames) {
@@ -21,7 +21,6 @@ module.exports.run = async (client,message, args, person) => {
                 console.error(err)
             })
     })
-
 }
 
 module.exports.help = {

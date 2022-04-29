@@ -1,9 +1,13 @@
 const Discord = require('discord.js')
-const client = new Discord.Client()
+const { Client, Intents, Collection } = require('discord.js');
+const myIntents = new Intents(8);
+
+const client = new Client({ intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MEMBERS] });
+
 const config = require('./config.json')
 const fs = require('fs')
 const prefix = config.prefix;
-client.commands = new Discord.Collection();
+client.commands = new Collection();
 
 fs.readdir("./commands/", (err , files) => {
   if(err) console.error(err);
@@ -16,9 +20,9 @@ fs.readdir("./commands/", (err , files) => {
 
   console.log(`Loading ${jsfiles.length} commands`);
 
-  jsfiles.forEach((f, i)=> {
-    let props =require(`./commands/${f}`);
-    console.log(`${i+1}: ${f} loaded`)
+  jsfiles.forEach((file, i)=> {
+    let props = require(`./commands/${file}`);
+    console.log(`${i+1}: ${file} loaded`)
     client.commands.set(props.help.name,props);
   })
 })
@@ -27,6 +31,8 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
   client.user.setActivity(config.customclienttag)
 })
+
+
 client.on('guildMemberAdd', member => {
   // Send the message to a designated channel on a server:
   const channel = member.guild.channels.cache.find(ch => ch.name === config.welcomechannel)
@@ -55,9 +61,10 @@ client.on('guildMemberAdd', member => {
   })
 })
 
-client.on('message', message => {
+client.on('messageCreate', message => {
+
   if (message.guild === null) return;
-  if (message.channel.name === config.usernamech) {
+  if (message.channel.id === config.usernamech) {
     if (message.content.startsWith('-')) return
     fs.appendFile('username-temp.txt', ',' + message.content, function (err) {
       if (err) throw err
@@ -85,11 +92,12 @@ client.on('message', message => {
   if (!message.content.startsWith(prefix) || message.author.bot) return
   const args = message.content.slice(prefix.length).trim().split(' ')
   const command = args.shift().toLowerCase()
-  const person = message.guild.member(message.mentions.users.first() || message.guild.members.fetch(args[0]))
+  user = message.mentions.members.first()||null
+
   console.log(command)
   let cmd = client.commands.get(command)
   console.log(cmd)
-  if(cmd) cmd.run(client, message, args, person);
+  if(cmd) cmd.run(client, message, args, user);
 
 })
 
