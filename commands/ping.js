@@ -1,8 +1,11 @@
-module.exports.run = async (client,message, args) => {
-    message.reply({content:'Pong!', ephemeral: true })
-    console.log('pinged')
-}
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
-module.exports.help = {
-    name : "ping"
+
+module.exports= {
+    data: new SlashCommandBuilder()
+        .setName('ping')
+        .setDescription('pong'),
+    async execute(interaction) {
+        return interaction.reply('Pong!');
+    },
 }

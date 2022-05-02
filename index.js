@@ -1,37 +1,44 @@
 const Discord = require('discord.js')
 const { Client, Intents, Collection } = require('discord.js');
-const myIntents = new Intents(8);
+//const myIntents = new Intents(8);
+const { token } = require('./config.json');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MEMBERS] });
 
 const config = require('./config.json')
 const fs = require('fs')
 const prefix = config.prefix;
+
+
 client.commands = new Collection();
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-fs.readdir("./commands/", (err , files) => {
-  if(err) console.error(err);
-  
-  let jsfiles = files.filter(f => f.split(".").pop() == "js");
-  if(jsfiles.length <= 0) {
-    console.log("No commands to load");
-    return;
-  } 
+for (const file of commandFiles) {
+	const command = require(`./commands/${file}`);
+	client.commands.set(command.data.name, command);
+}
 
-  console.log(`Loading ${jsfiles.length} commands`);
 
-  jsfiles.forEach((file, i)=> {
-    let props = require(`./commands/${file}`);
-    console.log(`${i+1}: ${file} loaded`)
-    client.commands.set(props.help.name,props);
-  })
-})
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
   client.user.setActivity(config.customclienttag)
 })
 
+client.on('interactionCreate', async interaction => {
+	if (!interaction.isCommand()) return;
+
+	const command = client.commands.get(interaction.commandName);
+
+	if (!command) return;
+
+	try {
+		await command.execute(interaction);
+	} catch (error) {
+		console.error(error);
+		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+	}
+});
 
 client.on('guildMemberAdd', member => {
   // Send the message to a designated channel on a server:
@@ -101,4 +108,4 @@ client.on('messageCreate', message => {
 
 })
 
-client.login(config.token)
+client.login(token)
